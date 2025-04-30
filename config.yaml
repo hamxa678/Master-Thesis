@@ -1,0 +1,87 @@
+data :
+  name: Bosch
+  data_dir: /content/Thesis678/BOSCHv2.0
+  image_size: 256
+  batch_size: 16 
+  DA_batch_size: 16
+  test_batch_size: 1
+  mask : True
+  input_channel : 3
+
+
+
+model:
+  DDADS: False
+  checkpoint_dir: checkpoints/Bosch
+  checkpoint_name: weights
+  exp_name: default
+  feature_extractor: wide_resnet101_2 
+  learning_rate: 3e-4 
+  weight_decay: 0.05
+  epochs: 3000
+  load_chp : 3000
+  DA_epochs: 4 
+  DA_chp: 4
+  v : 7
+  w_DA : 3 
+  DLlambda : 0.1 
+  trajectory_steps: 1000
+
+
+
+  w : 0.1 
+  test_trajectoy_steps: 550 
+
+
+
+
+  test_trajectoy_steps_DA: 600  
+  skip : 25  
+  skip_DA : 25
+  eta : 1 
+  beta_start : 0.0001
+  beta_end : 0.02 
+  device: 'cuda'
+  save_model: True
+  num_workers : 2
+  seed : 42
+
+
+
+metrics:
+  auroc: True
+  pro: True
+  misclassifications: True
+  visualisation: True
+
+
+
+
+  # 0.2 - 550
+  # 0.1 - 550
+  # 0.15 - 600
+  # 0.1 - 600
+  # 0.05 - 600
+  # 0.01 - 600
+  # 0.05 - 600 ******** v = 0.5
+  # 0.03 - 600 ******** v = 0.5
+
+
+# with out training DA.
+  # v = 7, w = 0.1, t = 550   -> AUROC: (96.2,93.5), PRO: 68.6
+  # v = 7, w = 0.05, t = 550   -> AUROC: (98.9,93.7), PRO: 64.6
+  # v = 7, w = 0.02, t = 450   -> AUROC: (98.8,93.8), PRO:  65.0
+  # v = 7, w = 0.02, t = 550   -> AUROC: (96.0,93.2), PRO:  69.9
+  # v = 7, w = 0.04, t = 550   -> AUROC: (95.9,93.3), PRO:  69.7
+
+
+
+# with training DA.
+  # v = 7, w = 0.04, t = 550   -> AUROC: (95.9,94.0), PRO:  73.4
+  # v = 7, w = 0.1, t = 550   -> AUROC: (95.9,94.1), PRO: 73.1
+
+
+
+  # v = 3, w = 0.3, t = 550  -> AUROC: (96.7,94.1),  PRO: 73.0   p>0.5
+  # v = 1, w = 0.3, t = 550  -> AUROC: (95.8,94.4),  PRO: 74.8   p>0.5
+  # v = 1, w = 0.3, t = 500  -> AUROC:AUROC: (96.2,93.7) ,  PRO: PRO: 71.7   p>0.5  4/6
